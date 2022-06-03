@@ -7,14 +7,25 @@ adicionarPaciente.addEventListener("click", function(){
     xhr.open("GET", "https://api-pacientes.herokuapp.com/pacientes");
 
     xhr.addEventListener("load", function(){
-        let resposta = xhr.responseText;
+        let erro = document.querySelector("#erro-ajax");
 
-        let pacientes = JSON.parse(resposta);
-
-        pacientes.forEach(function(paciente){
-            adicionaPacienteTabela(paciente);
-        }) 
-    });
+        if( xhr.status == 200){
+            erro.classList.add("invisivel");
+            let resposta = xhr.responseText;
     
+            let pacientes = JSON.parse(resposta);
+    
+            pacientes.forEach(function(paciente){
+                adicionaPacienteTabela(paciente);
+            }); 
+        }else{
+            console.log(xhr.status);
+            console.log(xhr.responseText);
+                        erro.classList.remove("invisivel");
+
+        }
+    });
+
     xhr.send();
+    
 });
